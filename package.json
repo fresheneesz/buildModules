@@ -1,0 +1,12 @@
+{
+  "name": "buildModules",
+  "version": "1.0.0",
+  "main": "buildModules.js",
+  "dependencies": {
+    "uglify-js": "~2.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fresheneesz/buildModules"
+  }
+}
