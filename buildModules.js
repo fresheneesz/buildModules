@@ -1,4 +1,5 @@
 var fs = require('fs')
+var path = require('path')
 var uglify = require('uglify-js')
 
 module.exports = buildOutput
@@ -13,14 +14,15 @@ function minify(js, sourceMapName) {
 function globalify(commonJs) {
 	return '// requires: jquery\n'+
 	';(function(exports) {\n'+
-		commonJs+
+		'var module = {exports:exports}\n'+
+		commonJs+'\n'+
 	'})(this)'
 }
 function amdify(commonJs) {
 	return "require(['jQuery'], function($) {\n"+
-		'var module.exports = {}, exports = module.exports\n'+
-		commonJs+
-		'return module.exports'
+		'var module = {exports:{}}, exports = module.exports\n'+
+		commonJs+'\n'+
+		'return module.exports\n'+
 	'})'
 }
 
@@ -39,11 +41,13 @@ function buildOutput(buildDirectory, name, header, contents, filenames) {
 	
 	write(filenames.commonJs, contents) 				// commonJs (raw)
 	write(filenames.amd, amd) 							// amd
+	console.log(amd)
+	
 	write(filenames.minAmd, minify(amd, amdName)) 		// minified amd
 	write(filenames.global, global) 					// global
 	write(filenames.minGlobal, minify(global, globalName))	// minified global	
 	
 	function write(name, file) {
-		fs.writeFile(buildDirectory+name, header+'\n'+file)
+		fs.writeFile(path.join(buildDirectory, name), header+'\n'+file)
 	}
 }

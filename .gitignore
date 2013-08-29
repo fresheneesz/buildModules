@@ -1,0 +1,4 @@
+node_modules
+test/*.amd.*
+test/*.common.*
+test/*.global.*
