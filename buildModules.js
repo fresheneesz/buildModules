@@ -41,8 +41,6 @@ function buildOutput(buildDirectory, name, header, contents, filenames) {
 	
 	write(filenames.commonJs, contents) 				// commonJs (raw)
 	write(filenames.amd, amd) 							// amd
-	console.log(amd)
-	
 	write(filenames.minAmd, minify(amd, amdName)) 		// minified amd
 	write(filenames.global, global) 					// global
 	write(filenames.minGlobal, minify(global, globalName))	// minified global	
