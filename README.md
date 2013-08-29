@@ -5,7 +5,10 @@ Builds modules of different formats from a CommonJS (node.js style) source file.
 
 Install
 =======
-```git+https://git@github.com/fresheneesz/buildModules.git#2f50ea0830b0fa580c087b4bfa947de2e7b7d7c3```
+
+```
+git+https://git@github.com/fresheneesz/buildModules.git#2f50ea0830b0fa580c087b4bfa947de2e7b7d7c3
+```
 
 
 Usage
