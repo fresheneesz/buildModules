@@ -35,6 +35,7 @@ function buildOutput(buildDirectory, name, header, contents, filenames, dependen
 	var globalName = name+'.global.js'
 	if(!filenames.global) filenames.global = globalName
 	if(!filenames.minGlobal) filenames.minGlobal = name+'.global.min.js'
+    if(dependencies === undefined) dependencies = []
 	
 	var amd = amdify(contents, dependencies)
 	var global = globalify(contents, dependencies)
