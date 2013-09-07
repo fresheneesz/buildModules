@@ -11,22 +11,22 @@ function minify(js, sourceMapName) {
 	}).code
 }
 
-function globalify(commonJs) {
-	return '// requires: jquery\n'+
+function globalify(commonJs, dependencies) {
+	return '// requires: '+dependencies+'\n'+
 	';(function(exports) {\n'+
 		'var module = {exports:exports}\n'+
 		commonJs+'\n'+
 	'})(this)'
 }
-function amdify(commonJs) {
-	return "require(['jQuery'], function($) {\n"+
+function amdify(commonJs, dependencies) {
+	return "define("+JSON.stringify(dependencies)+", function($) {\n"+
 		'var module = {exports:{}}, exports = module.exports\n'+
 		commonJs+'\n'+
 		'return module.exports\n'+
 	'})'
 }
 
-function buildOutput(buildDirectory, name, header, contents, filenames) {
+function buildOutput(buildDirectory, name, header, contents, filenames, dependencies) {
 	if(!filenames) filenames = {}
 	if(!filenames.commonJs) filenames.commonJs = name+'.common.js'
 	var amdName = name+'.amd.js' 
@@ -36,8 +36,8 @@ function buildOutput(buildDirectory, name, header, contents, filenames) {
 	if(!filenames.global) filenames.global = globalName
 	if(!filenames.minGlobal) filenames.minGlobal = name+'.global.min.js'
 	
-	var amd = amdify(contents)
-	var global = globalify(contents)
+	var amd = amdify(contents, dependencies)
+	var global = globalify(contents, dependencies)
 	
 	write(filenames.commonJs, contents) 				// commonJs (raw)
 	write(filenames.amd, amd) 							// amd
