@@ -46,12 +46,13 @@ Outputs the following files:
 Notes
 =====
 
-Currently only really works for single files that don't have any dependencies. Making it work for multiple files with dependencies coming soon!
+Partially works with files that have dependencies - more testing is needed, and there is at least one bug for files with dependencies.
 
 Todo
 ====
 
 * Support modules with dependencies (via require-traverser)
+* create unit tests that test source maps
 
 How to Contribute!
 ============

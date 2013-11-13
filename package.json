@@ -4,11 +4,11 @@
   "main": "buildModules.js",
   "dependencies": {
     "uglify-js": "~2.4.0",
-    "require-traverser":"",
+    "require-traverser":"0.1.6",
     "async-future":""
   },
   "devDependencies": {
-     "deadunit": "git+https://git@github.com/fresheneesz/deadunit.git"
+     "deadunit": ""
   },
   "repository": {
     "type": "git",
