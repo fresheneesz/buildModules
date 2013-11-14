@@ -34,8 +34,7 @@ build(<outputDirectory>, <moduleName>, <header>, <moduleContents>[, <options>], 
    * `minAmd:` a custom name for the minified amd file (default: `<moduleName>+'.amd.min.js'`)
    * `global:` a custom name for the global browser file (default: `<moduleName>+'.global.js'`)
    * `minGlobal:` a custom name for the minified global browser file (default: `<moduleName>+'.global.min.js'`)
-* `<errback> is a node.js errback function (first argument is `error`) that is called when `build` is finished.
-```
+* `<errback>` is a node.js errback function (first argument is `error`) that is called when `build` is finished.
 
 Outputs the following files:
 
