@@ -42,11 +42,6 @@ Outputs the following files:
 * Minified and unminified browser modules with a single globalized name (dependencies, however, are hidden - not globalized)
 * A sourcemap file for mapping from the minified to the non-minified modules for both amd and globalized versions.
 
-Notes
-=====
-
-Partially works with files that have dependencies - more testing is needed, and there is at least one bug for files with dependencies.
-
 Todo
 ====
 
@@ -74,6 +69,11 @@ How to submit pull requests:
 7. When you're done, run the unit tests and ensure they all pass
 8. Commit and push your changes
 9. Submit a pull request: https://help.github.com/articles/creating-a-pull-request
+
+Change Log
+==========
+
+* 1.0.1 - now supports modules with dependencies!
 
 License
 =======
