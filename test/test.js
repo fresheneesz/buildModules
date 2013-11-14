@@ -9,24 +9,32 @@ var test = Unit.test('buildModules', function(t) {
 
     this.test('simple module with module.exports (no dependencies)', function(t) {
 	    var name = 'testOutput'
-	    build('generatedTestOutput', name, "/*some text*/", 
+	    build('generatedTestOutput', name, "//some text", 
             "testDependency.js", undefined, testModules(t, 6, newFuture(), name)) 
 	})
 
     this.test('simple module with exports (no dependencies)', function(t) {
 	    var name = 'testOutput2'
-        build('generatedTestOutput', name, "/*some text*/", 
+        build('generatedTestOutput', name, "//some text", 
             "testDependency2.js", undefined, testModules(t, 6, newFuture(), name)) 
 	})
 
     this.test('module with dependencies', function(t) {
         var name = 'testOutput3'
-	    build('generatedTestOutput', name, "/*some text*/", 
+	    build('generatedTestOutput', name, "//some text",
             "testDependency3.js", undefined, testModules(t, 6, newFuture(), name)) 
-        
+
         name = 'testOutput4'
-	    build('generatedTestOutput', name, "/*some text*/", 
-            "testDependency4.js", undefined, testModules(t, 6, newFuture(), name)) 
+	    build('generatedTestOutput', name, "//some text", 
+            "testDependency4.js", undefined, testModules(t, 6, newFuture(), name))
+
+        name = 'testOutput5'
+	    build('generatedTestOutput', name, "//some text",
+            "testDependency5.js", undefined, testModules(t, 90, newFuture(), name))
+
+        name = 'testOutput6'
+	    build('generatedTestOutput', name, "//some text",
+            "testDependency6.js", undefined, testModules(t, 12, newFuture(), name))
 	})
 })
 

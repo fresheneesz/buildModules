@@ -48,7 +48,7 @@ module.exports = buildOutput; function buildOutput(buildDirectory, name, header,
         	if(dependencies.resolved.length > 0) {        
                 innerModules = dependencies.resolved.map(function(dependency) {
                     return innerModule(dependency.relative, fs.readFileSync(dependency.absolute))    
-                })
+                }).join('')
             }
 
             var contents = fs.readFileSync(modulePath)
@@ -58,13 +58,13 @@ module.exports = buildOutput; function buildOutput(buildDirectory, name, header,
             write(filenames.amd, amd) 							// amd
             write(filenames.minAmd, minAmd.code) 	            // minified amd
             write(sourceMapName(filenames.amd), minAmd.map) 	        // minified amd sourcemap
-            
+
             var global = globalify(name, contents, innerModules)
             var minGlobal = minify(global, filenames.global)
             write(filenames.global, global) 					// global
             write(filenames.minGlobal, minGlobal.code)	        // minified global
             write(sourceMapName(filenames.global), minGlobal.map)	    // minified global sourcemap
-        
+
         	Future.all(futures).then(function() {
         		errback()	
         	}).catch(function(e) {
@@ -85,10 +85,15 @@ module.exports = buildOutput; function buildOutput(buildDirectory, name, header,
 }
 
 function minify(js, name) {
-	return uglify.minify(js, {
-		fromString: true, 
-    	outSourceMap: sourceMapName(name)
-	})
+	try {
+        return uglify.minify(js, {
+            fromString: true,
+            outSourceMap: sourceMapName(name)
+        })
+    } catch(e) {
+        // uglify currently has sucky exceptions
+        throw Error('Problem uglifying '+name+"\n"+ e.toString()+"\n-------------\n")
+    }
 }
 
 function sourceMapName(file) {
