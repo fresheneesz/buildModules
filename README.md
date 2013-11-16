@@ -28,7 +28,7 @@ build(<outputDirectory>, <moduleName>, <header>, <moduleContents>[, <options>], 
 * `<outputDirectory>` is the directory in which the built files are created
 * `<moduleName>` is name of the module
 * `<header>` is a header included in each built file
-* `<moduleContents>` is a string containing the contents of the original commonJs module
+* `<modulePath>` is a string containing the path to the file being built
 * `<options>` (optional) is an object containing any of the following properties:
    * `amd:` a custom name for the amd file (default: `<moduleName>+'.amd.js'`)
    * `minAmd:` a custom name for the minified amd file (default: `<moduleName>+'.amd.min.js'`)
@@ -73,6 +73,7 @@ How to submit pull requests:
 Change Log
 ==========
 
+* 1.0.4 - changing api to pass in the module path as the 4th parameter instead of the module contents
 * 1.0.1 - now supports modules with dependencies!
 
 License
