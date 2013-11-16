@@ -1,4 +1,4 @@
-node_modules
-test/generatedTestOutput
+/node_modules/
+test/generatedTestOutput/*
 .idea
 .iml

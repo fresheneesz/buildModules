@@ -8,7 +8,8 @@
     "async-future":"0.1.3"
   },
   "devDependencies": {
-     "deadunit": "1.0.7"
+     "deadunit": "1.0.7",
+     "requirejs":""
   },
   "repository": {
     "type": "git",
