@@ -1,14 +1,14 @@
 {
   "name": "build-modules",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "main": "buildModules.js",
   "dependencies": {
     "uglify-js": "2.4.3",
-    "require-traverser":"0.1.6",
-    "async-future":""
+    "require-traverser":"0.1.7",
+    "async-future":"0.1.3"
   },
   "devDependencies": {
-     "deadunit": ""
+     "deadunit": "1.0.7"
   },
   "repository": {
     "type": "git",
