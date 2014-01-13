@@ -1,4 +1,4 @@
-`buildModules`
+`build-modules`
 ============
 
 Builds modules of different formats from a CommonJS (node.js style) source file. Builds AMD and traditional globalized browser module pattern files, minified and non-minified.
@@ -18,6 +18,10 @@ var build = require('buildModules')
 build('outputDirectory/', 'moduleName', '/*Some Header - probably a copywrite*/', moduleContents)
 ```
 
+Why use `build-modules` over...
+===========================
+* Browserify - build-modules uses browserify under the hood, but makes it much simpler to put together simple umd packages.
+
 Usage
 ====
 
@@ -29,23 +33,17 @@ build(<outputDirectory>, <moduleName>, <header>, <moduleContents>[, <options>], 
 * `<moduleName>` is name of the module
 * `<header>` is a header included in each built file
 * `<moduleContents>` is a string containing the contents of the original commonJs module
-* `<options>` (optional) is an object containing any of the following properties:
-   * `amd:` a custom name for the amd file (default: `<moduleName>+'.amd.js'`)
-   * `minAmd:` a custom name for the minified amd file (default: `<moduleName>+'.amd.min.js'`)
-   * `global:` a custom name for the global browser file (default: `<moduleName>+'.global.js'`)
-   * `minGlobal:` a custom name for the minified global browser file (default: `<moduleName>+'.global.min.js'`)
 * `<errback>` is a node.js errback function (first argument is `error`) that is called when `build` is finished.
 
 Outputs the following files:
 
-* Minified and unminified AMD modules
-* Minified and unminified browser modules with a single globalized name (dependencies, however, are hidden - not globalized)
+* A minified and unminified universal module
 * A sourcemap file for mapping from the minified to the non-minified modules for both amd and globalized versions.
 
 Todo
 ====
 
-* Support modules with dependencies (via require-traverser)
+* Support node.js builtin modules via browser-builtins
 * create unit tests that test source maps
 
 How to Contribute!
@@ -73,6 +71,7 @@ How to submit pull requests:
 Change Log
 ==========
 
+* 1.0.2 - now uses browserify and just outputs umd packages.
 * 1.0.1 - now supports modules with dependencies!
 
 License

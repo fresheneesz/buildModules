@@ -3,6 +3,7 @@ var path = require('path')
 var uglify = require('uglify-js')
 var rt = require('require-traverser')
 var Future = require('async-future')
+var browserify = require('browserify')
 
 var writeFile = Future.wrap(fs.writeFile)
 
@@ -15,7 +16,7 @@ module.exports = buildOutput; function buildOutput(buildDirectory, name, header,
 			var errback = arguments[5]
 		}
 		
-        if(!filenames) filenames = {}
+        /*if(!filenames) filenames = {}
         if(!filenames.amd) filenames.amd = name+'.amd.js'
         if(!filenames.minAmd) filenames.minAmd = name+'.amd.min.js'
         if(!filenames.global) filenames.global = name+'.global.js'
@@ -29,10 +30,18 @@ module.exports = buildOutput; function buildOutput(buildDirectory, name, header,
             var requirePath = './'+moduleFileName
         } else {
             var requirePath = moduleFileName
-        }
+        }                           */
+
+        var unminifiedStream = fs.createWriteStream(buildDirectory+'/'+name+'.umd.js')
+        browserify().add(modulePath).bundle({standalone: name}).pipe(unminifiedStream)
+        
+        unminifiedStream.on('close', function() {
+            console.log("end")
+            errback()  
+        })
 
 
-        Future.wrap(rt)(moduleDirectory, requirePath).then(function(dependencyMap) {
+        /*Future.wrap(rt)(moduleDirectory, requirePath).then(function(dependencyMap) {
             var dependencies = {resolved: [], unresolved: [], unfound: []}
             for(var k in dependencyMap) {
                 dependencies.resolved = dependencies.resolved.concat(dependencyMap[k].resolved)
@@ -79,6 +88,7 @@ module.exports = buildOutput; function buildOutput(buildDirectory, name, header,
         function write(name, file) {
 			futures.push(writeFile(path.join(buildDirectory, name), header+'\n'+file))
         }
+        */
     } catch(e) {
         errback(e)
     }
