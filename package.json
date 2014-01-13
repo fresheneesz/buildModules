@@ -1,10 +1,10 @@
 {
   "name": "build-modules",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "main": "buildModules.js",
   "dependencies": {
     "uglify-js": "2.4.3",
-    "require-traverser":"0.1.6",
+    "require-traverser":"0.1.7",
     "async-future":"0.1.3",
     "browserify":"",
     "minifyify":""

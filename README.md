@@ -43,7 +43,6 @@ Outputs the following files:
 Todo
 ====
 
-* Support node.js builtin modules via browser-builtins
 * create unit tests that test source maps
 
 How to Contribute!
@@ -71,6 +70,7 @@ How to submit pull requests:
 Change Log
 ==========
 
+* 1.0.4 - changing api to pass in the module path as the 4th parameter instead of the module contents
 * 1.0.2 - now uses browserify and just outputs umd packages.
 * 1.0.1 - now supports modules with dependencies!
 
