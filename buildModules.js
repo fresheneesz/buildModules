@@ -5,7 +5,7 @@ var path = require('path')
 //var Future = require('async-future')
 var browserify = require('browserify')
 
-var writeFile = Future.wrap(fs.writeFile)
+//var writeFile = Future.wrap(fs.writeFile)
 
 module.exports = buildOutput; function buildOutput(buildDirectory, name, header, modulePath) {
 	try {
