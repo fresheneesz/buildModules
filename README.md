@@ -15,7 +15,9 @@ Example
 
 ```javascript
 var build = require('buildModules')
-build('outputDirectory/', 'moduleName', '/*Some Header - probably a copywrite*/', moduleContents)
+build('outputDirectory/', 'moduleName', '/*Some Header - probably a copywrite*/', 'some/path/to/file.js', function(error) {
+   // done
+})
 ```
 
 Why use `build-modules` over...
@@ -24,15 +26,16 @@ Why use `build-modules` over...
 
 Usage
 ====
+buildDirectory, name, header, modulePath
 
 ```javascript
-build(<outputDirectory>, <moduleName>, <header>, <moduleContents>[, <options>], <errback>)
+build(<outputDirectory>, <moduleName>, <header>, <modulePath>, <errback>)
 ```
 
 * `<outputDirectory>` is the directory in which the built files are created
 * `<moduleName>` is name of the module
 * `<header>` is a header included in each built file
-* `<moduleContents>` is a string containing the contents of the original commonJs module
+* `<modulePath>` is the path of the file to build
 * `<errback>` is a node.js errback function (first argument is `error`) that is called when `build` is finished.
 
 Outputs the following files:

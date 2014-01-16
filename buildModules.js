@@ -1,8 +1,8 @@
 var fs = require('fs')
 var path = require('path')
-var uglify = require('uglify-js')
-var rt = require('require-traverser')
-var Future = require('async-future')
+//var uglify = require('uglify-js')
+//var rt = require('require-traverser')
+//var Future = require('async-future')
 var browserify = require('browserify')
 
 var writeFile = Future.wrap(fs.writeFile)
@@ -36,7 +36,6 @@ module.exports = buildOutput; function buildOutput(buildDirectory, name, header,
         browserify().add(modulePath).bundle({standalone: name}).pipe(unminifiedStream)
         
         unminifiedStream.on('close', function() {
-            console.log("end")
             errback()  
         })
 
