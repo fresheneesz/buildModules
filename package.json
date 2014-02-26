@@ -1,12 +1,13 @@
 {
   "name": "build-modules",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "buildModules.js",
   "dependencies": {
-    "browserify":""
+    "browserify":"",
+    "minifyify":"1.1.2"
   },
   "nextDependnecies": {
-    "minifyify":""      
+
   },
   "oldDependencies": {
     "require-traverser":"0.1.7",
