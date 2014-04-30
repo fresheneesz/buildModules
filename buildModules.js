@@ -12,11 +12,11 @@ module.exports = buildOutput; function buildOutput(buildDirectory, name, header,
     if(bundleOps.standalone === undefined) bundleOps.standalone = name
 
     try {
-		if(arguments.length === 5) {
-			var errback = arguments[4]			
-		} else if(arguments.length === 6) {
-			var filenames = arguments[4]
+		if(arguments.length === 6) {
 			var errback = arguments[5]
+		} else if(arguments.length === 7) {
+			var filenames = arguments[5]
+			var errback = arguments[6]
 		}
 		
         /*if(!filenames) filenames = {}

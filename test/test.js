@@ -12,7 +12,7 @@ var test = Unit.test('buildModules', function(t) {
 
         var name = 'testOutput'
 	    build('generatedTestOutput', name, "//some text", 
-            __dirname+"/testDependency.js", undefined, testModules(t, 6, newFuture(), name))
+            __dirname+"/testDependency.js", undefined, undefined, testModules(t, 6, newFuture(), name))
 	})
 
     this.test('simple module with exports (no dependencies)', function(t) {
@@ -20,7 +20,7 @@ var test = Unit.test('buildModules', function(t) {
 
         var name = 'testOutput2'
         build('generatedTestOutput', name, "//some text", 
-            __dirname+"/testDependency2.js", undefined, testModules(t, 6, newFuture(), name))
+            __dirname+"/testDependency2.js", undefined, undefined, testModules(t, 6, newFuture(), name))
 	})
 
     this.test('module with dependencies', function(t) {
@@ -28,19 +28,19 @@ var test = Unit.test('buildModules', function(t) {
 
         var name = 'testOutput3'
 	    build('generatedTestOutput', name, "//some text",
-            __dirname+"/testDependency3.js", undefined, testModules(t, 6, newFuture(), name))
+            __dirname+"/testDependency3.js", undefined, undefined, testModules(t, 6, newFuture(), name))
 
         name = 'testOutput4'
 	    build('generatedTestOutput', name, "//some text", 
-            __dirname+"/testDependency4.js", undefined, testModules(t, 6, newFuture(), name))
+            __dirname+"/testDependency4.js", undefined, undefined, testModules(t, 6, newFuture(), name))
 
         name = 'testOutput5'
 	    build('generatedTestOutput', name, "//some text",
-            __dirname+"/testDependency5.js", undefined, testModules(t, 90, newFuture(), name))
+            __dirname+"/testDependency5.js", undefined, undefined, testModules(t, 90, newFuture(), name))
 
         name = 'testOutput6'
 	    build('generatedTestOutput', name, "//some text",
-            __dirname+"/testDependency6.js", undefined, testModules(t, 12, newFuture(), name))
+            __dirname+"/testDependency6.js", undefined, undefined, testModules(t, 12, newFuture(), name))
 	})
 })
 

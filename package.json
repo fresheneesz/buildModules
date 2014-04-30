@@ -1,6 +1,6 @@
 {
   "name": "build-modules",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "main": "buildModules.js",
   "dependencies": {
     "browserify":""
