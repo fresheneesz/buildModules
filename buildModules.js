@@ -7,8 +7,11 @@ var browserify = require('browserify')
 
 //var writeFile = Future.wrap(fs.writeFile)
 
-module.exports = buildOutput; function buildOutput(buildDirectory, name, header, modulePath) {
-	try {
+module.exports = buildOutput; function buildOutput(buildDirectory, name, header, modulePath, bundleOps) {
+	if(bundleOps === undefined) bundleOps = {}
+    if(bundleOps.standalone === undefined) bundleOps.standalone = name
+
+    try {
 		if(arguments.length === 5) {
 			var errback = arguments[4]			
 		} else if(arguments.length === 6) {
@@ -33,7 +36,7 @@ module.exports = buildOutput; function buildOutput(buildDirectory, name, header,
         }                           */
 
         var unminifiedStream = fs.createWriteStream(buildDirectory+'/'+name+'.umd.js')
-        browserify().add(modulePath).bundle({standalone: name}).pipe(unminifiedStream)
+        browserify().add(modulePath).bundle(bundleOps).pipe(unminifiedStream)
         
         unminifiedStream.on('close', function() {
             errback()  

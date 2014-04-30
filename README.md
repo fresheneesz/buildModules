@@ -48,6 +48,9 @@ Outputs the following files:
 Change Log
 ==========
 
+* 1.0.5
+    * deprecating this module
+    * adding bundle options to support sourcemaps (this is probably the last addition that will be made to this module)
 * 1.0.4 - changing api to pass in the module path as the 4th parameter instead of the module contents
 * 1.0.2 - now uses browserify and just outputs umd packages.
 * 1.0.1 - now supports modules with dependencies!
