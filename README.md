@@ -48,7 +48,8 @@ Outputs the following files:
 Change Log
 ==========
 
-* 1.0.5
+* 1.0.10 - upgrading modules so no dependencies have post-install scripts (which npm chokes on very often)
+* 1.0.9
     * deprecating this module
     * adding bundle options to support sourcemaps (this is probably the last addition that will be made to this module)
 * 1.0.4 - changing api to pass in the module path as the 4th parameter instead of the module contents

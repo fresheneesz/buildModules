@@ -1,13 +1,13 @@
 {
   "name": "build-modules",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "main": "buildModules.js",
   "dependencies": {
     "browserify":""
   },
   "devDependencies": {
-     "deadunit": "2.0.1",
-     "async-future":"0.1.3",
+     "deadunit": "4.1.1",
+     "async-future":"0.1.17",
      "requirejs":""
   },
   "repository": {
