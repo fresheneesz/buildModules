@@ -1,6 +1,8 @@
 `build-modules`
 ============
 
+**DEPRECATED** - I highly recommend using [webpack](https://github.com/webpack/webpack) over browserify or any browserify-derived modules (like `build-modules`). Webpack is eaiser to develop in than browserify, and creates more efficient bundles.
+
 Builds modules of different formats from a CommonJS (node.js style) source file. Builds AMD and traditional globalized browser module pattern files, minified and non-minified.
 
 Install
@@ -42,33 +44,6 @@ Outputs the following files:
 
 * A minified and unminified universal module
 * A sourcemap file for mapping from the minified to the non-minified modules for both amd and globalized versions.
-
-Todo
-====
-
-* create unit tests that test source maps
-
-How to Contribute!
-============
-
-Anything helps:
-
-* Creating issues (aka tickets/bugs/etc). Please feel free to use issues to report bugs, request features, and discuss changes
-* Updating the documentation: ie this readme file. Be bold! Help create amazing documentation!
-* Submitting pull requests.
-
-How to submit pull requests:
-
-1. Please create an issue and get my input before spending too much time creating a feature. Work with me to ensure your feature or addition is optimal and fits with the purpose of the project.
-2. Fork the repository
-3. clone your forked repo onto your machine and run `npm install` at its root
-4. If you're gonna work on multiple separate things, its best to create a separate branch for each of them
-   `git checkout -b my-feature-branch`
-5. edit!
-6. If it's a code change, please add to the unit tests (at test/test.js) to verify that your change
-7. When you're done, run the unit tests and ensure they all pass
-8. Commit and push your changes
-9. Submit a pull request: https://help.github.com/articles/creating-a-pull-request
 
 Change Log
 ==========

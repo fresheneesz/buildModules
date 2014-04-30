@@ -3,15 +3,7 @@
   "version": "1.0.8",
   "main": "buildModules.js",
   "dependencies": {
-    "browserify":"",
-    "minifyify":"1.1.2"
-  },
-  "nextDependnecies": {
-
-  },
-  "oldDependencies": {
-    "require-traverser":"0.1.7",
-    "uglify-js": "2.4.3"
+    "browserify":""
   },
   "devDependencies": {
      "deadunit": "2.0.1",
