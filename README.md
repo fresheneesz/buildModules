@@ -48,6 +48,7 @@ Outputs the following files:
 Change Log
 ==========
 
+* 1.0.12 - Updating to fix breaking change in browserify. Also shrinkwrapping so this never happens again.
 * 1.0.10 - upgrading modules so no dependencies have post-install scripts (which npm chokes on very often)
 * 1.0.9
     * deprecating this module

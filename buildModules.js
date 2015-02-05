@@ -36,7 +36,7 @@ module.exports = buildOutput; function buildOutput(buildDirectory, name, header,
         }                           */
 
         var unminifiedStream = fs.createWriteStream(buildDirectory+'/'+name+'.umd.js')
-        browserify().add(modulePath).bundle(bundleOps).pipe(unminifiedStream)
+        browserify(bundleOps).add(modulePath).bundle().pipe(unminifiedStream)
         
         unminifiedStream.on('close', function() {
             errback()  
