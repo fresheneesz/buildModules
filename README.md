@@ -16,8 +16,8 @@ Example
 =====
 
 ```javascript
-var build = require('buildModules')
-var emitter = build(__dirname+'/rootDirectory/', 'moduleName', {output:{path: __dirname+'/generatedFile/'}})
+var build = require('build-modules')
+var emitter = build(__dirname+'/rootDirectory/moduleName', {output:{path: __dirname+'/generatedFile/'}})
 emitter.on('done', function() {
    console.log("Done!")
 })
