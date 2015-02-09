@@ -62,26 +62,27 @@ var test = Unit.test('buildModules', function(t) {
 
     this.test('watcher', function(t) {
         this.timeout(2000)
-        this.count(2)
+        this.count(3)
 
-        var name = 'generatedTestDependency1.js'
-        var fileName = 'generatedTestOutput/'+name+'.umd.js'
-        fs.writeFileSync(__dirname+'/'+name, "exports.x = 2")
+        var name = 'generatedTestDependency1'
+        var fileName = name+'.js'
+        var filePath = 'generatedTestOutput/'+name+'.umd.js'
+
+        fs.writeFileSync(__dirname+'/'+fileName, "exports.x = 2")
         var emitter = build(__dirname+'/'+name, {watch: true, output: {path: __dirname+'/generatedTestOutput'}, header: "//some text"})
         setTimeout(function() {
-            console.log("AHH")
-            fs.writeFileSync(__dirname+'/'+name, "exports.x = 3")
+            fs.writeFileSync(__dirname+'/'+fileName, "exports.x = 3")
         },1000)
 
         var time = 0
         emitter.on("done", function() {
-            if(time === 0) {
-                requirejs([fileName], function(amd) {
+            if(time === 0 || time === 1) { // not sure why this is called twice sometimes (for this it seems to be every time, but other builds it only  happens once)
+                requirejs([filePath], function(amd) {
                     t.eq(amd.x, 2)
                 })
-            } else if(time === 1) {
-                requirejs.undef(fileName)
-                requirejs([fileName], function(amd) {
+            } else if(time === 2) {
+                requirejs.undef(filePath)
+                requirejs([filePath], function(amd) {
                     t.eq(amd.x, 3)
                     emitter.close() // close the watcher
                 })

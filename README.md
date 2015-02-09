@@ -57,6 +57,11 @@ Outputs the following files:
 * A minified universal module
 * A sourcemap file
 
+Known issues
+============
+
+When build is called with the watch option, 'done' is emitted twice in a row on the first run. After that, you just get the expected 1 per build.
+
 Change Log
 ==========
 

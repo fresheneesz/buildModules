@@ -70,7 +70,6 @@ module.exports = buildOutput; function buildOutput(filePath, options) {
     }
 
     var emitter = new EventEmitter
-    var ignoreTheNextOne = true // ignore the first one
     var compilerOrWatcher = webpack(webpackConfig, function(err, stats) {
         if(err) {
             emitter.emit('error', err)
@@ -94,11 +93,7 @@ module.exports = buildOutput; function buildOutput(filePath, options) {
                     var entrypointFileName = jsonStats.assetsByChunkName.main
                 }
 
-                if(!options.watch || !ignoreTheNextOne) {
-                    emitter.emit('done', entrypointFileName)
-                } else {
-                    ignoreTheNextOne = false // only ignore the first one
-                }
+                emitter.emit('done', entrypointFileName)
             }
         }
     })
