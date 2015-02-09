@@ -1,0 +1,15 @@
+<body></body>
+
+<script src="../node_modules/deadunit/browserPackage/deadunit.browser.gen.umd.js"></script>
+<script src="generatedTestOutput/testDependency.umd.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script>
+    deadunit.browser.gen.test(function(t) {
+        this.warning(function(w) {
+            t.log(w) // and ignore
+        })
+        this.ok(testDependency.v, 6)
+    }).writeHtml(document.body)
+</script>
+

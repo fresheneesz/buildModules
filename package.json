@@ -1,12 +1,12 @@
 {
   "name": "build-modules",
-  "version": "1.0.12",
+  "version": "2.0.0",
   "main": "buildModules.js",
   "dependencies": {
-    "browserify":""
+    "webpack":""
   },
   "devDependencies": {
-     "deadunit": "4.1.1",
+     "deadunit": "5.1.7",
      "async-future":"0.1.17",
      "requirejs":""
   },

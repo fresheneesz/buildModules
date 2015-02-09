@@ -1,163 +1,112 @@
 var fs = require('fs')
 var path = require('path')
-//var uglify = require('uglify-js')
-//var rt = require('require-traverser')
-//var Future = require('async-future')
-var browserify = require('browserify')
+var webpack = require('webpack')
 
-//var writeFile = Future.wrap(fs.writeFile)
-
-module.exports = buildOutput; function buildOutput(buildDirectory, name, header, modulePath, bundleOps) {
-	if(bundleOps === undefined) bundleOps = {}
-    if(bundleOps.standalone === undefined) bundleOps.standalone = name
-
-    try {
-		if(arguments.length === 6) {
-			var errback = arguments[5]
-		} else if(arguments.length === 7) {
-			var filenames = arguments[5]
-			var errback = arguments[6]
-		}
-		
-        /*if(!filenames) filenames = {}
-        if(!filenames.amd) filenames.amd = name+'.amd.js'
-        if(!filenames.minAmd) filenames.minAmd = name+'.amd.min.js'
-        if(!filenames.global) filenames.global = name+'.global.js'
-        if(!filenames.minGlobal) filenames.minGlobal = name+'.global.min.js'
-
-        var futures = []
-        
-        var moduleDirectory = path.dirname(modulePath)
-        var moduleFileName = path.basename(modulePath)
-        if(isRelative(moduleFileName)) {
-            var requirePath = './'+moduleFileName
-        } else {
-            var requirePath = moduleFileName
-        }                           */
-
-        var unminifiedStream = fs.createWriteStream(buildDirectory+'/'+name+'.umd.js')
-        browserify(bundleOps).add(modulePath).bundle().pipe(unminifiedStream)
-        
-        unminifiedStream.on('close', function() {
-            errback()  
-        })
+var EventEmitter = require("events").EventEmitter
 
 
-        /*Future.wrap(rt)(moduleDirectory, requirePath).then(function(dependencyMap) {
-            var dependencies = {resolved: [], unresolved: [], unfound: []}
-            for(var k in dependencyMap) {
-                dependencies.resolved = dependencies.resolved.concat(dependencyMap[k].resolved)
-                dependencies.unresolved = dependencies.unresolved.concat(dependencyMap[k].unresolved)
-                dependencies.unfound = dependencies.unfound.concat(dependencyMap[k].unfound)
-            }
-
-            if(dependencies.unresolved.length > 0 || dependencies.unfound.length > 0) {
-                throw Error("Couldn't resolve dependencies: "+dependencies.unresolved+" and couldn't find dependencies: "+dependencies.unfound)
-            }
-            
-            var innerModules = ''
-        	if(dependencies.resolved.length > 0) {        
-                innerModules = dependencies.resolved.map(function(dependency) {
-                    return innerModule(dependency.relative, fs.readFileSync(dependency.absolute))    
-                }).join('')
-            }
-
-            var contents = fs.readFileSync(modulePath)
-
-            var amd = amdify(contents, innerModules)
-            var minAmd = minify(amd, filenames.amd)
-            write(filenames.amd, amd) 							// amd
-            write(filenames.minAmd, minAmd.code) 	            // minified amd
-            write(sourceMapName(filenames.amd), minAmd.map) 	        // minified amd sourcemap
-
-            var global = globalify(name, contents, innerModules)
-            var minGlobal = minify(global, filenames.global)
-            write(filenames.global, global) 					// global
-            write(filenames.minGlobal, minGlobal.code)	        // minified global
-            write(sourceMapName(filenames.global), minGlobal.map)	    // minified global sourcemap
-
-        	Future.all(futures).then(function() {
-        		errback()	
-        	}).catch(function(e) {
-        		errback(e)
-        	}).done()   
-            
-        }).catch(function(e) {
-            errback(e)            
-        }).done()
-
-
-        function write(name, file) {
-			futures.push(writeFile(path.join(buildDirectory, name), header+'\n'+file))
+// parameters:
+    // filePath is the absolute path to the module file
+    // options can have:
+        // watch - if true, sets up a watcher that rebuilds the bundle whenever relevant source files change (keeps running until the process closes)
+        // name - the name of the global variable in the case the UMD package is loaded without a module system (defaults to `path.basename(entrypoint)`)
+        // header - something to put at the top of the build bundle
+        // output - an object with the members:
+            // path - where to put the bundle file (defaults to the entrypoint directory)
+            // name - what to name the output bundle (defaults to options.name+'.umd.js')
+        // alias - webpack alias option
+        // plugins - additional webpack plugins to add
+        // jsonpFunction - (optional) the name of the jsonp function name
+// returns an EventEmitter that emits the events:
+    // warning(warning message)
+    // error(errorObject)
+    // done(entrypointFilename) - emitted when the bundle has been built. Can be called multiple times if 'options.watch' is set to true.
+        // The argument 'entrypointFilename' is the name of the main bundle file
+module.exports = buildOutput; function buildOutput(filePath, options) {
+    if(options === undefined) options = {}
+    if(options.name === undefined) {
+        options.name = path.basename(filePath)
+        if(options.name.substr(-3) === '.js') {
+            options.name = options.name.substr(0, options.name.length-3)
         }
-        */
-    } catch(e) {
-        errback(e)
     }
-}
+    if(options.output === undefined) options.output = {}
+    if(options.output.path === undefined) options.output.path = path.dirname(filePath)
+    if(options.output.name === undefined) options.output.name = options.name+'.umd.js'
 
-function minify(js, name) {
-	try {
-        return uglify.minify(js, {
-            fromString: true,
-            outSourceMap: sourceMapName(name)
+
+    var plugins = [
+      new webpack.optimize.DedupePlugin(),       // removes duplicate files
+      new webpack.optimize.UglifyJsPlugin()      // minify
+    ]
+
+    if(options.plugins !== undefined) {
+        options.plugins.forEach(function(plugin) {
+            plugins.push(plugin)
         })
-    } catch(e) {
-        // uglify currently has sucky exceptions
-        throw Error('Problem uglifying '+name+"\n"+ e.toString()+"\n-------------\n")
     }
-}
 
-function sourceMapName(file) {
-	return file+".map"		
-}
+    if(options.header !== undefined) {
+        plugins.push(new webpack.BannerPlugin(options.header, { raw: true, entryOnly: true })) // must be done *after* minification
+    }
 
-// for string output
-function predefinedVariables() {
-    return 'var exports = {}, module = {exports:exports}\n'+
-        'var require = function(module) {\n'+
-        '	if(require.cache[module] === undefined) {\n'+
-        '		require.cache[module] = require.modules[module]()\n'+
-        '	}\n'+
-        '	return require.cache[module]\n'+
-        '}\n'+
-        'require.cache = []\n'+
-        'require.modules = []\n'   
-}
+    var webpackConfig = {
+        context: path.dirname(filePath),
+        entry: "./"+path.basename(filePath),
+        output: {
+            path: options.output.path,
+            filename: options.output.name,
+            jsonpFunction: options.jsonpFunction,
+            libraryTarget: 'umd',
+            library: options.name
+        },
+        plugins: plugins,
+        devtool: "source-map",
+        watch: options.watch
+    }
 
-function globalify(name, commonJs, innerModules) {
-    
-    return ';(function(__global__) {\n'+
-    	   predefinedVariables()+
-    	    innerModules+'\n\n'+
-    		commonJs+'\n'+
-        '   if(__global__.'+name+' !== undefined) throw Error("There is already a global name: '+name+'")\n' +
-        '   __global__.'+name+'=module.exports\n'+
-    	'})(global !== undefined && exports !== undefined && module !== undefined ? global : this)'
-    	
-    return result
-}
-function amdify(commonJs, innerModules) {    
-	return "define(function() {\n"+
-	    predefinedVariables()+
-    	innerModules+'\n\n'+
-		commonJs+'\n'+
-		'return module.exports\n'+
-	'})'
-}
+    if(options.alias) {
+        webpackConfig.resolve = {alias: options.alias}
+    }
 
-// returns an inner module from original source
-function innerModule(relativeModulePath, commonJs) {    
-    return 'require.modules["'+relativeModulePath+'"] = (function() {\n'+
-    	'	var exports = {}\n'+
-    	'	var module = {exports:exports}\n'+
-    		commonJs+'\n'+
-        '   return module.exports\n'+
-    	'});\n'   
-}
+    var emitter = new EventEmitter
+    var ignoreTheNextOne = true // ignore the first one
+    var compilerOrWatcher = webpack(webpackConfig, function(err, stats) {
+        if(err) {
+            emitter.emit('error', err)
+        } else {
+            var jsonStats = stats.toJson();
+            //fs.writeFileSync("webpackstats.txt", JSON.stringify(jsonStats))
 
-function isRelative(p) {
-    var normal = path.normalize(p);
-    var absolute = path.resolve(p);
-    return normal != absolute;
+            if(jsonStats.warnings.length > 0)
+                jsonStats.warnings.forEach(function(w) {
+                    emitter.emit('warning', w)
+                })
+
+            if(jsonStats.errors.length > 0)
+                jsonStats.errors.forEach(function(e) {
+                    emitter.emit('error', e)
+                })
+            else {
+                if(jsonStats.assetsByChunkName.main instanceof Array) {
+                    var entrypointFileName = jsonStats.assetsByChunkName.main[0]
+                } else {
+                    var entrypointFileName = jsonStats.assetsByChunkName.main
+                }
+
+                if(!options.watch || !ignoreTheNextOne) {
+                    emitter.emit('done', entrypointFileName)
+                } else {
+                    ignoreTheNextOne = false // only ignore the first one
+                }
+            }
+        }
+    })
+
+    emitter.close = function(callback) {
+        if(callback === undefined) callback = function(){}
+        compilerOrWatcher.close(callback)
+    }
+
+    return emitter
 }

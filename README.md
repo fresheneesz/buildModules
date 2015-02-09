@@ -1,9 +1,9 @@
 `build-modules`
 ============
 
-**DEPRECATED** - I highly recommend using [webpack](https://github.com/webpack/webpack) over browserify or any browserify-derived modules (like `build-modules`). Webpack is eaiser to develop in than browserify, and creates more efficient bundles.
+Easily build a umd package from a project of CommonJS (node.js style) modules that can be loaded via require.js or as a traditional browser global loaded in a &lt;script> tag. Has an option to "watch" the source files and rebuild the package on the fly.
 
-Builds modules of different formats from a CommonJS (node.js style) source file. Builds AMD and traditional globalized browser module pattern files, minified and non-minified.
+This uses [webpack](http://webpack.github.io/docs/?utm_source=github&utm_medium=readme) under the hood.
 
 Install
 =======
@@ -17,37 +17,53 @@ Example
 
 ```javascript
 var build = require('buildModules')
-build('outputDirectory/', 'moduleName', '/*Some Header - probably a copywrite*/', 'some/path/to/file.js', function(error) {
-   // done
+var emitter = build(__dirname+'/rootDirectory/', 'moduleName', {output:{path: __dirname+'/generatedFile/'}})
+emitter.on('done', function() {
+   console.log("Done!")
+})
+emitter.on('error', function(e) {
+   console.log(e)
+})
+emitter.on('warning', function(w) {
+   console.log(w)
 })
 ```
 
-Why use `build-modules` over...
+Why use `build-modules` over Browserify and Webpack?
 ===========================
-* Browserify - build-modules uses browserify under the hood, but makes it much simpler to put together simple umd packages.
+If you just want to easily support people using require.js and traditional script inclusion, but don't need anything complicated, this module is for you. It also exposes the "watcher" ability from webpack (which browserify doesn't have).
 
 Usage
 ====
-buildDirectory, name, header, modulePath
 
 ```javascript
-build(<outputDirectory>, <moduleName>, <header>, <modulePath>, <errback>)
+build(<filepath>, <options>)
 ```
 
-* `<outputDirectory>` is the directory in which the built files are created
-* `<moduleName>` is name of the module
-* `<header>` is a header included in each built file
-* `<modulePath>` is the path of the file to build
-* `<errback>` is a node.js errback function (first argument is `error`) that is called when `build` is finished.
+* `<filepath>` - The absolute path to the module file.
+* `<options>` - An object with optional parameters. Can contain the following members:
+  * `watch` - If true, sets up a watcher that rebuilds the bundle whenever relevant source files change (keeps running until the process closes)
+  * `name` - The name of the global variable in the case the UMD package is loaded without a module system (defaults to `path.basename(entrypoint)`)
+  * `header` - A string to put at the top of the build bundle.
+  * `output` - An object with the members:
+    * `path` - Where to put the bundle file (defaults to the entrypoint directory)
+    * `name` - What to name the output bundle (defaults to options.name+'.umd.js')
+  * `alias` - Webpack alias option.
+  * `plugins` - Additional webpack plugins to add.
+  * `jsonpFunction` - The name of the jsonp function name (defaults to webpack's default).
 
 Outputs the following files:
 
-* A minified and unminified universal module
-* A sourcemap file for mapping from the minified to the non-minified modules for both amd and globalized versions.
+* A minified universal module
+* A sourcemap file
 
 Change Log
 ==========
 
+* 2.0.0 - BREAKING CHANGE
+	* Using webpack instead of browserify
+    * Parameters all change
+    * A watching rebuilder can be configured now
 * 1.0.12 - Updating to fix breaking change in browserify. Also shrinkwrapping so this never happens again.
 * 1.0.10 - upgrading modules so no dependencies have post-install scripts (which npm chokes on very often)
 * 1.0.9
