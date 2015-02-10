@@ -22,7 +22,12 @@ var test = Unit.test('buildModules', function(t) {
 	    this.count(1*testsPerRun)
 
         var name = 'testDependency'
-	    var emitter = build(__dirname+'/'+name, {output: {path: __dirname+'/generatedTestOutput', name: 'testDependency.umd.js'}, header: "//some text", name: "godzilla"})
+	    var emitter = build(__dirname+'/'+name, {
+            name: "godzilla",
+            output: {path: __dirname+'/generatedTestOutput', name: 'testDependency.umd.js'},
+            header: "//some text",
+            minify: false
+        })
         testModules(t, emitter, name, 6, "//some text")
 	})
 

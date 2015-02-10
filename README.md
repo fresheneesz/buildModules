@@ -37,13 +37,13 @@ Usage
 ====
 
 ```javascript
-build(<filepath>, <options>)
+build(filepath, options)
 ```
 
-* `<filepath>` - The absolute path to the module file.
-* `<options>` - An object with optional parameters. Can contain the following members:
+* `filepath` - The absolute path to the module file.
+* `options` - An object with optional parameters. Can contain the following members:
   * `watch` - If true, sets up a watcher that rebuilds the bundle whenever relevant source files change (keeps running until the process closes)
-  * `name` - The name of the global variable in the case the UMD package is loaded without a module system (defaults to `path.basename(entrypoint)`)
+  * `name` - The name of the global variable in the case the UMD package is loaded without a module system (defaults to `path.basename(filepath)`)
   * `header` - A string to put at the top of the build bundle.
   * `output` - An object with the members:
     * `path` - Where to put the bundle file (defaults to the entrypoint directory)
@@ -51,6 +51,7 @@ build(<filepath>, <options>)
   * `alias` - Webpack alias option.
   * `plugins` - Additional webpack plugins to add.
   * `jsonpFunction` - The name of the jsonp function name (defaults to webpack's default).
+  * `minify` - If false, this doesn't minify and also adds pathinfo to modules in the bundle. Default: true.
 
 Outputs the following files:
 
@@ -65,6 +66,7 @@ When build is called with the watch option, 'done' is emitted twice in a row on 
 Change Log
 ==========
 
+* 2.0.3 - adding a 'minify' parameter that allows you to turn off minifying (for debugging purposes)
 * 2.0.2 - fixing building modules that require files below their directory
 * 2.0.0 - BREAKING CHANGE
 	* Using webpack instead of browserify

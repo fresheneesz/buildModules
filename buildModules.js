@@ -36,9 +36,13 @@ module.exports = buildOutput; function buildOutput(filePath, options) {
 
 
     var plugins = [
-      new webpack.optimize.DedupePlugin(),       // removes duplicate files
-      new webpack.optimize.UglifyJsPlugin()      // minify
+      new webpack.optimize.DedupePlugin()       // removes duplicate files
     ]
+
+    if(options.minify !== false) {
+        plugins.push(new webpack.optimize.UglifyJsPlugin())      // minify)
+        var pathinfo = true
+    }
 
     if(options.plugins !== undefined) {
         options.plugins.forEach(function(plugin) {
@@ -66,7 +70,8 @@ module.exports = buildOutput; function buildOutput(filePath, options) {
         },
         plugins: plugins,
         devtool: "source-map",
-        watch: options.watch
+        watch: options.watch,
+        pathinfo: pathinfo
     }
 
     if(options.alias) {
