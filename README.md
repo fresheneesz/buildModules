@@ -65,6 +65,7 @@ When build is called with the watch option, 'done' is emitted twice in a row on 
 Change Log
 ==========
 
+* 2.0.2 - fixing building modules that require files below their directory
 * 2.0.0 - BREAKING CHANGE
 	* Using webpack instead of browserify
     * Parameters all change

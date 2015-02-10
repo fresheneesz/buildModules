@@ -99,6 +99,14 @@ var test = Unit.test('buildModules', function(t) {
             t.ok(false, w)
         })
     })
+
+    this.test("former bugs", function() {
+        this.test("module requiring something below its directory", function() {
+            var name = 'innerModule'
+            var emitter = build(__dirname+'/a/'+name, {output: {path: __dirname+'/generatedTestOutput'}, header: "//some text"})
+            testModules(t, emitter, name, 6, "//some text")
+        })
+    })
     //*/
 
 })

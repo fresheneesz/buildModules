@@ -50,9 +50,13 @@ module.exports = buildOutput; function buildOutput(filePath, options) {
         plugins.push(new webpack.BannerPlugin(options.header, { raw: true, entryOnly: true })) // must be done *after* minification
     }
 
+    var root = path.dirname(filePath).split(path.sep).slice(0,1)
+    var relativeDirectory = path.dirname(filePath).split(path.sep).slice(1).join(path.sep)
+
+
     var webpackConfig = {
-        context: path.dirname(filePath),
-        entry: "./"+path.basename(filePath),
+        context: root+path.sep,
+        entry: "./"+relativeDirectory+'/'+path.basename(filePath),
         output: {
             path: options.output.path,
             filename: options.output.name,
