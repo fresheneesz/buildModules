@@ -6,7 +6,7 @@ var EventEmitter = require("events").EventEmitter
 
 
 // parameters:
-    // filePath is the absolute path to the module file
+    // inputFilePath is the absolute path to the module file
     // options can have:
         // watch - if true, sets up a watcher that rebuilds the bundle whenever relevant source files change (keeps running until the process closes)
         // name - the name of the global variable in the case the UMD package is loaded without a module system (defaults to `path.basename(entrypoint)`)
@@ -22,7 +22,9 @@ var EventEmitter = require("events").EventEmitter
     // error(errorObject)
     // done(entrypointFilename) - emitted when the bundle has been built. Can be called multiple times if 'options.watch' is set to true.
         // The argument 'entrypointFilename' is the name of the main bundle file
-module.exports = buildOutput; function buildOutput(filePath, options) {
+module.exports = buildOutput; function buildOutput(inputFilePath, options) {
+    var filePath = path.normalize(inputFilePath)
+
     if(options === undefined) options = {}
     if(options.name === undefined) {
         options.name = path.basename(filePath)
@@ -54,13 +56,9 @@ module.exports = buildOutput; function buildOutput(filePath, options) {
         plugins.push(new webpack.BannerPlugin(options.header, { raw: true, entryOnly: true })) // must be done *after* minification
     }
 
-    var root = path.dirname(filePath).split(path.sep).slice(0,1)
-    var relativeDirectory = path.dirname(filePath).split(path.sep).slice(1).join(path.sep)
-
-
     var webpackConfig = {
-        context: root+path.sep,
-        entry: "./"+relativeDirectory+'/'+path.basename(filePath),
+        context: path.dirname(filePath),
+        entry: "./"+path.basename(filePath),
         output: {
             path: options.output.path,
             filename: options.output.name,

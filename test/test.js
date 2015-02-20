@@ -1,4 +1,5 @@
 var fs = require('fs')
+var path = require("path")
 
 var Unit = require('deadunit')
 var Future = require('async-future')
@@ -107,6 +108,12 @@ var test = Unit.test('buildModules', function(t) {
 
     this.test("former bugs", function() {
         this.test("module requiring something below its directory", function() {
+            var name = 'innerModule'
+            var emitter = build(path.join(__dirname,'a',name), {output: {path: __dirname+'/generatedTestOutput'}, header: "//some text"})
+            testModules(t, emitter, name, 6, "//some text")
+        })
+
+        this.test("path with multiple separator types fails (ie try to handle some invalid paths)", function() {
             var name = 'innerModule'
             var emitter = build(__dirname+'/a/'+name, {output: {path: __dirname+'/generatedTestOutput'}, header: "//some text"})
             testModules(t, emitter, name, 6, "//some text")
