@@ -66,6 +66,7 @@ When build is called with the watch option, 'done' is emitted twice in a row on 
 Change Log
 ==========
 
+* 2.0.5 - Fixing pathinfo
 * 2.0.4 - (minor) slight improvement in how context is done under the hood, and an extra test
 * 2.0.3 - adding a 'minify' parameter that allows you to turn off minifying (for debugging purposes)
 * 2.0.2 - fixing building modules that require files below their directory

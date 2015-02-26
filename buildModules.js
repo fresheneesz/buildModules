@@ -42,7 +42,8 @@ module.exports = buildOutput; function buildOutput(inputFilePath, options) {
     ]
 
     if(options.minify !== false) {
-        plugins.push(new webpack.optimize.UglifyJsPlugin())      // minify)
+        plugins.push(new webpack.optimize.UglifyJsPlugin())      // minify
+    } else {
         var pathinfo = true
     }
 
@@ -64,12 +65,12 @@ module.exports = buildOutput; function buildOutput(inputFilePath, options) {
             filename: options.output.name,
             jsonpFunction: options.jsonpFunction,
             libraryTarget: 'umd',
-            library: options.name
+            library: options.name,
+            pathinfo: pathinfo
         },
         plugins: plugins,
         devtool: "source-map",
-        watch: options.watch,
-        pathinfo: pathinfo
+        watch: options.watch
     }
 
     if(options.alias) {

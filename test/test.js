@@ -72,7 +72,7 @@ var test = Unit.test('buildModules', function(t) {
 
         var name = 'generatedTestDependency1'
         var fileName = name+'.js'
-        var filePath = 'generatedTestOutput/'+name+'.umd.js'
+        var filePath = path.join(__dirname,'generatedTestOutput',name+'.umd.js')
 
         fs.writeFileSync(__dirname+'/'+fileName, "exports.x = 2")
         var emitter = build(__dirname+'/'+name, {watch: true, output: {path: __dirname+'/generatedTestOutput'}, header: "//some text"})
@@ -140,7 +140,7 @@ function testModules(t, emitter, name, value, header) {
             t.ok(true) // to balance the count
         }
 
-		requirejs([fileName], function(amd) {
+		requirejs([path.join(__dirname,fileName)], function(amd) {
             t.ok(amd.v === value, amd, value)
 		})
     })
