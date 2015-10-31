@@ -82,7 +82,7 @@ module.exports = buildOutput; function buildOutput(inputFilePath, options) {
         if(err) {
             emitter.emit('error', err)
         } else {
-            var jsonStats = stats.toJson();
+            var jsonStats = stats.toJson({errorDetails: false})
             //fs.writeFileSync("webpackstats.txt", JSON.stringify(jsonStats))
 
             if(jsonStats.warnings.length > 0)
