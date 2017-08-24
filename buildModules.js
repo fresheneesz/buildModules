@@ -37,9 +37,7 @@ module.exports = buildOutput; function buildOutput(inputFilePath, options) {
     if(options.output.name === undefined) options.output.name = options.name+'.umd.js'
 
 
-    var plugins = [
-      new webpack.optimize.DedupePlugin()       // removes duplicate files
-    ]
+    var plugins = []
 
     if(options.minify !== false) {
         plugins.push(new webpack.optimize.UglifyJsPlugin())      // minify
@@ -54,7 +52,7 @@ module.exports = buildOutput; function buildOutput(inputFilePath, options) {
     }
 
     if(options.header !== undefined) {
-        plugins.push(new webpack.BannerPlugin(options.header, { raw: true, entryOnly: true })) // must be done *after* minification
+        plugins.push(new webpack.BannerPlugin({banner:options.header, raw: true, entryOnly: true })) // must be done *after* minification
     }
 
     var webpackConfig = {
@@ -79,6 +77,12 @@ module.exports = buildOutput; function buildOutput(inputFilePath, options) {
 
     var emitter = new EventEmitter
     var compilerOrWatcher = webpack(webpackConfig, function(err, stats) {
+        if(err) console.log("error: "+err)
+        else    console.log("no error")
+
+        var jsonStats = stats.toJson({errorDetails: false})
+        console.log(jsonStats.warnings)
+        
         if(err) {
             emitter.emit('error', err)
         } else {

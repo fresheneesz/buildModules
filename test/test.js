@@ -68,7 +68,7 @@ var test = Unit.test('buildModules', function(t) {
 
     this.test('watcher', function(t) {
         this.timeout(2000)
-        this.count(3)
+        this.count(2)
 
         var name = 'generatedTestDependency1'
         var fileName = name+'.js'
@@ -76,27 +76,27 @@ var test = Unit.test('buildModules', function(t) {
 
         fs.writeFileSync(__dirname+'/'+fileName, "exports.x = 2")
         var emitter = build(__dirname+'/'+name, {watch: true, output: {path: __dirname+'/generatedTestOutput'}, header: "//some text"})
+
+        var state = 1, count = 0
         setTimeout(function() {
             fs.writeFileSync(__dirname+'/'+fileName, "exports.x = 3")
-        },1000)
+            state = 2
+        }, 1000)
 
-        var time = 0
         emitter.on("done", function() {
-            if(time === 0 || time === 1) { // not sure why this is called twice sometimes (for this it seems to be every time, but other builds it only  happens once)
+            if(state === 1 && count === 1) { // not sure why this is called twice sometimes (for this it seems to be every time, but other builds it only happens once)
                 requirejs([filePath], function(amd) {
                     t.eq(amd.x, 2)
                 })
-            } else if(time === 2) {
+            } else if(state === 2) {
                 requirejs.undef(filePath)
                 requirejs([filePath], function(amd) {
                     t.eq(amd.x, 3)
                     emitter.close() // close the watcher
                 })
-            } else {
-                throw new Error("Got an unexpected number of times: "+time)
             }
 
-            time++
+            count++
         })
         emitter.on("error", function(e) {
             t.ok(false, e)
