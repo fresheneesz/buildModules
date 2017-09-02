@@ -77,12 +77,6 @@ module.exports = buildOutput; function buildOutput(inputFilePath, options) {
 
     var emitter = new EventEmitter
     var compilerOrWatcher = webpack(webpackConfig, function(err, stats) {
-        if(err) console.log("error: "+err)
-        else    console.log("no error")
-
-        var jsonStats = stats.toJson({errorDetails: false})
-        console.log(jsonStats.warnings)
-        
         if(err) {
             emitter.emit('error', err)
         } else {
