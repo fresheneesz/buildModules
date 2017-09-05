@@ -17,6 +17,8 @@ var EventEmitter = require("events").EventEmitter
         // alias - webpack alias option
         // plugins - additional webpack plugins to add
         // jsonpFunction - (optional) the name of the jsonp function name
+        // externals - (optional) The webpack `externals` options to pass through
+        // modules - (optional) The webpack `modules` options to pass through
 // returns an EventEmitter that emits the events:
     // warning(warning message)
     // error(errorObject)
@@ -73,6 +75,12 @@ module.exports = buildOutput; function buildOutput(inputFilePath, options) {
 
     if(options.alias) {
         webpackConfig.resolve = {alias: options.alias}
+    }
+    if(options.module) {
+        webpackConfig.module = options.module
+    }
+    if(options.externals) {
+        webpackConfig.externals = options.externals
     }
 
     var emitter = new EventEmitter
