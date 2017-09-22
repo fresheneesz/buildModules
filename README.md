@@ -52,6 +52,7 @@ build(filepath, options)
   * `plugins` - Additional webpack plugins to add.
   * `jsonpFunction` - The name of the jsonp function name (defaults to webpack's default).
   * `minify` - If false, this doesn't minify and also adds pathinfo to modules in the bundle. Default: true.
+  * `sourceMap` - (Default:true) If false, won't produce a source map. If true, will use the 'source-map' webpack devtool option. If something else, it'll set the webpack devtool option to that value.
 
 Outputs the following files:
 
@@ -66,6 +67,7 @@ When build is called with the watch option, 'done' is emitted twice in a row on 
 Change Log
 ==========
 
+* 2.2.0 - Adding `sourceMap` option
 * 2.1.0 - updating to webpack 3
 * 2.0.6 - turning off verbose webpack messages
 * 2.0.5 - Fixing pathinfo

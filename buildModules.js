@@ -19,6 +19,8 @@ var EventEmitter = require("events").EventEmitter
         // jsonpFunction - (optional) the name of the jsonp function name
         // externals - (optional) The webpack `externals` options to pass through
         // modules - (optional) The webpack `modules` options to pass through
+        // sourceMap - (Default:true) If false, won't produce a source map. If true, will use the 'source-map' webpack devtool option.
+//                     If something else, it'll set the webpack devtool option to that value.  
 // returns an EventEmitter that emits the events:
     // warning(warning message)
     // error(errorObject)
@@ -37,6 +39,7 @@ module.exports = buildOutput; function buildOutput(inputFilePath, options) {
     if(options.output === undefined) options.output = {}
     if(options.output.path === undefined) options.output.path = path.dirname(filePath)
     if(options.output.name === undefined) options.output.name = options.name+'.umd.js'
+    if(options.sourceMap === undefined || options.sourceMap === true) options.sourceMap = "source-map"
 
 
     var plugins = []
@@ -69,7 +72,6 @@ module.exports = buildOutput; function buildOutput(inputFilePath, options) {
             pathinfo: pathinfo
         },
         plugins: plugins,
-        devtool: "source-map",
         watch: options.watch
     }
 
@@ -81,6 +83,9 @@ module.exports = buildOutput; function buildOutput(inputFilePath, options) {
     }
     if(options.externals) {
         webpackConfig.externals = options.externals
+    }
+    if(options.sourceMap) {
+        webpackConfig.devtool = options.sourceMap
     }
 
     var emitter = new EventEmitter
