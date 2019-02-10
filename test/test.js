@@ -43,6 +43,7 @@ var test = Unit.test('buildModules', function(t) {
 	})
 
     this.test('module with dependencies', function(t) {
+        this.timeout(5000)
         this.count(4*testsPerRun) // 4 `build` runs
 
         var name = 'testDependency3'
