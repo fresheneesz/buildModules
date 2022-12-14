@@ -1,6 +1,6 @@
 {
   "name": "build-modules",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "main": "buildModules.js",
   "dependencies": {
     "webpack":"3"
@@ -8,7 +8,7 @@
   "devDependencies": {
      "deadunit": "5.1.7",
      "async-future":"0.1.17",
-     "requirejs":""
+     "requirejs": "2.2.0"
   },
   "repository": {
     "type": "git",
